@@ -20,42 +20,11 @@ class AnswerQuestion extends Component {
   }
 
 
-  handleTextBoxAnswerChange(e) {
-    let textBoxAnswer = e.target.value;
-    this.setState({
-      textAnswer : textBoxAnswer
-    });
-  }
-
-  captureRadioVal(i) {
-    let radioAnswer = this.props.question.options[i];
-    this.setState({
-      radioAnswer : radioAnswer
-    })
-  }
-
-  captureCheckBoxVal(options) {
-    let checkBoxAnswer = options;
-    this.setState({
-      checkBoxAnswer : options
-    })
-  }
-
-  captureDropDownVal(dropdownval) {
-    let dropdownVal = dropdownval;
-    this.setState({
-      dropdownVal : dropdownVal
-    })
-  }
-
   handleSaveAnswerClick() {
 
     let modifiedAnswerArray = this.state.modifiedAnswerArray;
     this.props.saveSurveyResponse(modifiedAnswerArray);
   }
-
-
-
 
   captureVal(questionModified) {
 

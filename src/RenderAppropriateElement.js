@@ -12,10 +12,15 @@ class RenderTextBox extends Component {
   }
   handleTextBoxAnswerChange(e){
     let textBoxAnswer = e.target.value;
-    this.setState({
-      textAnswer : textBoxAnswer
-    });
-    this.props.captureVal('textAnswer',textBoxAnswer);
+    if(textBoxAnswer.trim() === ''){
+      alert('Please enter a valid value in the text box');
+    }
+    else{
+      this.setState({
+        textAnswer : textBoxAnswer
+      });
+      this.props.captureVal('textAnswer',textBoxAnswer);
+    }
   }
 
   render(){
