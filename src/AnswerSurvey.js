@@ -21,6 +21,7 @@ class AnswerSurvey extends Component {
   handleSubmitSurveyClick() {
 
     let surveyResponse = this.state.surveyResponse;
+    debugger;
     let answeredQuestions = surveyResponse.filter(function(obj){return obj.isAnswered===true;});
     let unansweredQuestions = surveyResponse.filter(function(obj){return obj.isAnswered!=true;});
 
@@ -46,7 +47,7 @@ class AnswerSurvey extends Component {
   }
 
   returnAnswerSurveyMarkUp() {
-    
+
     let saveSurveyResponse = this.saveSurveyResponse.bind(this);
     let surveyResponse = this.state.surveyResponse;
 

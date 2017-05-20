@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import RenderRadioButton from './RenderRadioButton';
 import RenderCheckBoxes from './RenderCheckBoxes';
 import RenderDropDown from './RenderDropDown';
+import RenderAppropriateElement from './RenderAppropriateElement';
+var _ = require('lodash');
+
 
 class AnswerQuestion extends Component {
   constructor(props){
@@ -46,103 +49,33 @@ class AnswerQuestion extends Component {
   }
 
   handleSaveAnswerClick() {
-    let qType = this.props.question.questionType;
-    let modifiedAnswerArray = this.props.modifiedAnswerArray!=undefined?this.props.modifiedAnswerArray:[];
-    
 
-    if(qType=== 'Text Box'){
-      var questionModified = {};
-      questionModified.question = this.props.question.question;
-      questionModified.questionID = this.props.question.questionID;
-      questionModified.questionType = this.props.question.questionType;
-      questionModified.isAnswered = true;
-      questionModified.textAnswer = this.state.textAnswer;
-
-      modifiedAnswerArray.push(questionModified);
-
-      this.setState({
-        modifiedAnswerArray : modifiedAnswerArray
-      })
-    }
-
-    if(qType === 'Radio Button') {
-      var questionModified = {};
-      questionModified.question = this.props.question.question;
-      questionModified.options = this.props.question.options;
-      questionModified.questionID = this.props.question.questionID;
-      questionModified.questionType = this.props.question.questionType;
-      questionModified.isAnswered = true;
-      questionModified.radioAnswer = this.state.radioAnswer;
-
-      modifiedAnswerArray.push(questionModified);
-      this.setState({
-        modifiedAnswerArray : modifiedAnswerArray
-      })
-    }
-
-    if(qType === 'Check Box') {
-      var questionModified = {};
-      questionModified.question = this.props.question.question;
-
-      questionModified.questionID = this.props.question.questionID;
-      questionModified.questionType = this.props.question.questionType;
-      questionModified.isAnswered = true;
-      questionModified.checkBoxAnswer = this.state.checkBoxAnswer;
-
-      modifiedAnswerArray.push(questionModified);
-      this.setState({
-        modifiedAnswerArray : modifiedAnswerArray
-      })
-    }
-
-    if(qType === 'Drop Down') {
-      var questionModified = {};
-      questionModified.question = this.props.question.question;
-      questionModified.questionID = this.props.question.questionID;
-      questionModified.questionType = this.props.question.questionType;
-      questionModified.isAnswered = true;
-      questionModified.dropdownVal = this.state.dropdownVal;
-
-      modifiedAnswerArray.push(questionModified);
-      this.setState({
-        modifiedAnswerArray : modifiedAnswerArray
-      })
-    }
-
+    let modifiedAnswerArray = this.state.modifiedAnswerArray;
     this.props.saveSurveyResponse(modifiedAnswerArray);
   }
 
 
-  renderAppropriateElement() {
 
-    if(this.props.question.questionType === 'Text Box') {
-      return(
-          <div>
 
-            <textarea value={this.state.textAnswer} className="form-control" rows="2" onChange={this.handleTextBoxAnswerChange.bind(this)}></textarea>
-          </div>
-      )
-    }
-    else if(this.props.question.questionType === 'Radio Button') {
-      let options = this.props.question.options;
-      return(
-            <RenderRadioButton options = {options} captureVal={this.captureRadioVal.bind(this)} />
-      )
-    }
-    else if(this.props.question.questionType === 'Check Box') {
-      let options = this.props.question.options;
-      return(
-            <RenderCheckBoxes options = {options} captureValue={this.captureCheckBoxVal.bind(this)} />
-      )
-    }
+  captureVal(questionModified) {
 
-    else if(this.props.question.questionType === 'Drop Down') {
-      let options = this.props.question.options;
-      return(
-            <RenderDropDown options = {options} captureValue={this.captureDropDownVal.bind(this)} />
-      )
+    let modifiedAnswerArray = this.props.modifiedAnswerArray!=undefined?this.props.modifiedAnswerArray:[];
+    let newArray = [];
+    newArray.push(questionModified);
+    let element = modifiedAnswerArray.filter(obj=>obj.questionID === questionModified.questionID);
+    if(element.length > 0){
+       modifiedAnswerArray = modifiedAnswerArray.filter(obj => obj.questionID!=questionModified.questionID);
+       modifiedAnswerArray.push(questionModified);
     }
+    else {
+      modifiedAnswerArray.push(questionModified);
+    }
+    this.setState({
+      modifiedAnswerArray : modifiedAnswerArray
+    });
+
   }
+
   render() {
     return(
 
@@ -159,7 +92,7 @@ class AnswerQuestion extends Component {
             <div className="row">
             <div className="col-lg-1"></div>
               <div className="col-lg-6">
-                {this.renderAppropriateElement()}
+                  <RenderAppropriateElement question={this.props.question} captureVal={this.captureVal.bind(this)} />
               </div>
             </div>
             <div className="row">

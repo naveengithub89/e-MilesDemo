@@ -25,7 +25,7 @@ class RenderIndividualResponse extends Component {
     else if(this.props.resp.questionType === 'Check Box') {
       let outString = this.props.resp.checkBoxAnswer.join(',');
       return(
-        <div>{outString}</div>
+        <div className="floatLeftClass">{outString}</div>
       )
     }
   }
